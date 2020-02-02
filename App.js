@@ -16,6 +16,7 @@ import { Platform, StatusBar, Image } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
+import { Provider, DefaultTheme } from 'react-native-paper';
 
 import AppContainer from './navigation/Screens';
 import { Images, products, materialTheme } from './constants/';
@@ -41,6 +42,19 @@ function cacheImages(images) {
   });
 }
 
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#1B4E92',
+    accent: '#63b563',
+  },
+};
+
+
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
@@ -57,12 +71,14 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <GalioProvider theme={materialTheme}>
-          <Block flex>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppContainer />
-          </Block>
-        </GalioProvider>
+        <Provider theme={theme}>
+          <GalioProvider theme={materialTheme}>
+            <Block flex>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+              <AppContainer />
+            </Block>
+          </GalioProvider>
+        </Provider>
       );
     }
   }
