@@ -5,11 +5,11 @@ import { captureRef as takeSnapshotAsync } from 'react-native-view-shot';
 export const sharer = (data) => Sharing.shareAsync(formatFileUri(data)); 
 
 
-export const converterToUri = async ({elementRef, result='tmpfile', format='png', quality = 1}) => {
+export const converterToUri = async ({elementRef, type='tmpfile', format='png', quality = 1}) => {
 
     try{
         const result = await takeSnapshotAsync(elementRef, {
-            result,
+            type,
             quality,
             format,
         });

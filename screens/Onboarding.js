@@ -1,6 +1,6 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, Dimensions, Platform } from 'react-native';
-import { Block, Button, Text, theme } from 'galio-framework';
+import { ImageBackground, StyleSheet, StatusBar, Dimensions, Text, Platform, Image } from 'react-native';
+import { Block, Button, theme } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
 
@@ -16,30 +16,28 @@ export default class Onboarding extends React.Component {
         <StatusBar barStyle="light-content" />
         <Block flex center>
           <ImageBackground
-            source={{  uri: Images.Onboarding }}
-            style={{ height: height, width: width, marginTop: '-55%', zIndex: 1 }}
+            source={require('./../assets/images/ap.png')}
+            style={{ height: 200, width: 200, marginTop: "40%", zIndex: 1,  }}
+            blurRadius={0}
           />
         </Block>
         <Block flex space="between" style={styles.padded}>
           <Block flex space="around" style={{ zIndex: 2 }}>
             <Block>
               <Block>
-                <Text color="white" size={60}>Material</Text>
+                <Text style={{fontWeight: '200', fontSize: 26, color: "#0054a5"}}>ASSEMBLÉIA</Text>
               </Block>
               <Block row>
-                <Text color="white" size={60}>Kit</Text>
+                <Text style={{fontSize: 46, color: "#0054a5"}}>PARAENSE</Text>
               </Block>
-              <Text size={16} color='rgba(255,255,255,0.6)'>
-                Fully coded React Native components.
-              </Text>
             </Block>
             <Block center>
               <Button
                 shadowless
                 style={styles.button}
-                color={materialTheme.COLORS.BUTTON_COLOR}
+                color="#0054a5"
                 onPress={() => navigation.navigate('Home')}>
-                GET STARTED
+                ENTRAR
               </Button>
             </Block>
           </Block>
@@ -51,7 +49,7 @@ export default class Onboarding extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.COLORS.BLACK,
+    backgroundColor: "#fff"
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,

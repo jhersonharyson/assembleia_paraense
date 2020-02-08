@@ -85,13 +85,13 @@ export default class Home extends React.Component {
     setTimeout( ()=>{
       const {name, cpf, access, motherName, passport, isOlder, isNotBrazilian} = this.state.newInvite
       if((!!name && `${cpf}`.length == 14 && isOlder && !isNotBrazilian == true && !!access)){
-        this.setState({newInvite: {...this.state.newInvite, canInvite: true}})
+        this.setState({newInvite: {...this.state.newInvite, passport: "", motherName: "", canInvite: true}})
       }
       else if((!!name && isOlder === false && !!motherName && !!access)){
-        this.setState({newInvite: {...this.state.newInvite, canInvite: true}})
+        this.setState({newInvite: {...this.state.newInvite, cpf: "", passport: "", canInvite: true}})
       }
       else if((!!name && isNotBrazilian && !!passport && !!access)){
-        this.setState({newInvite: {...this.state.newInvite, canInvite: true}})
+        this.setState({newInvite: {...this.state.newInvite, cpf: "", motherName: "", canInvite: true}})
       }
       else {
         this.setState({newInvite: {...this.state.newInvite, canInvite: false}})
@@ -116,7 +116,6 @@ export default class Home extends React.Component {
             
             {this.state.inviteForm && 
               <KeyboardAwareScrollView behavior="padding" enabled keyboardShouldPersistTaps={true} contentContainerStyle={{flex: 1, paddingHorizontal: 5}} style={{flex: 1}}>
-                {/* <InviteCard ref={(r)=>{this.inviteRef = r}}/> */}
                 <ScrollView style={{width: "100%", height: "100%", margin: 0, padding: 0}}>
                 
                   <View style={styles.paddingFields}>
@@ -246,7 +245,7 @@ export default class Home extends React.Component {
         <Dialog visible={this.state.modal}  onDismiss={()=>this.setState({modal: false})}>
           <View style={{padding: 15,}}>
             <View style={{margin: 15, height: 140}}>
-              <Text>Confirmação do convite</Text>
+              <Text style={{fontWeight: '600', marginBottom: 5}}>Confirmação do convite</Text>
               <View style={{display: "flex", flexDirection: "row", marginVertical: 15, justifyContent: "center" }}>
                 <View style={{justifyContent: "center", alignItems: "center"}}>
                   <Avatar.Text size={36} label={this.state.newInvite.name[0]} />
@@ -257,6 +256,9 @@ export default class Home extends React.Component {
               <Button shadowless style={[styles.button, styles.shadow, styles.block]} onPress={this.shareFile} color="#1B4E92" icon="email">
                 CONVIDAR
               </Button>
+            </View>
+            <View style={{marginTop: -20, marginLeft: -20}}> 
+              <InviteCard ref={(r)=>{this.inviteRef = r}} {...this.state.newInvite}/>
             </View>
           </View>
         </Dialog>

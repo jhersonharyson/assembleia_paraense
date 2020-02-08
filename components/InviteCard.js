@@ -25,7 +25,7 @@ export default class InviteCard extends React.Component {
   render() {
     return (
       <View style={[styles.container, this.props.mini && {transform: [{scale: .4}]} ]}>
-        <Card style={{ borderRadius: 15, backgroundColor: '#fff' }}>
+        <Card style={{ borderRadius: 15, backgroundColor: '#fff', borderWidth: 1, borderColor: '#0008' }}>
           <View
             style={{
               display: 'flex',
@@ -141,7 +141,7 @@ export default class InviteCard extends React.Component {
                         fontSize: 7,
                         fontWeight: '200',
                       }}>
-                      JHERSON HARYSON
+                      {`${this.props.name}`.substring(0, 15)}
                     </Text>
                   </View>
                   <View
@@ -164,7 +164,7 @@ export default class InviteCard extends React.Component {
                         fontSize: 7,
                         fontWeight: '200',
                       }}>
-                      CLUBE
+                      {`${this.props.access}`}
                     </Text>
                   </View>
                   <View
@@ -177,18 +177,22 @@ export default class InviteCard extends React.Component {
                       <Text
                         style={{
                           color: '#6eabda',
-                          fontSize: 7,
+                          fontSize: 6,
                           fontWeight: '700',
                         }}>
-                        CPF
+                        {this.props.cpf ? 'CPF' :  (!!this.props.passport ? 'PASSAPORTE': 'NOME DA MÃE') }
                       </Text>
                       <Text
                         style={{
                           color: '#6eabda',
-                          fontSize: 6,
+                          fontSize: 5,
                           fontWeight: '200',
                         }}>
-                        000.000.000-00
+                         {
+                         this.props.cpf ? 
+                         `${this.props.cpf.substring(0, 3)}.${this.props.cpf.substring(3, 6)}.${this.props.cpf.substring(6, 9)}-${this.props.cpf.substring(9, 11)}` 
+                         : (!!this.props.passport ? this.props.passport : `${this.props.motherName}`.substring(0, 15) )
+                         }
                       </Text>
                     </View>
                   </View>
@@ -225,7 +229,7 @@ export default class InviteCard extends React.Component {
                       fontSize: 7,
                       fontWeight: '700',
                     }}>
-                    MAIOR DE IDADE
+                    { !this.props.isNotBrazilian && 'MAIOR DE IDADE' }
                   </Text>
                   <Text
                     style={{
@@ -233,7 +237,7 @@ export default class InviteCard extends React.Component {
                       fontSize: 7,
                       fontWeight: '200',
                     }}>
-                    SIM
+                     { !this.props.isNotBrazilian && (this.props.isOlder ? 'SIM' : 'NÃO') }
                   </Text>
                   <View style={{ marginTop: 7 }} />
                   <Text
@@ -273,7 +277,7 @@ export default class InviteCard extends React.Component {
                       fontSize: 7,
                       fontWeight: '200',
                     }}>
-                    JHERSON
+                    { `${this.props.user}`.substring(0, 15) }
                   </Text>
                   <View style={{ marginTop: 7 }} />
                   <Text
@@ -290,7 +294,7 @@ export default class InviteCard extends React.Component {
                       fontSize: 7,
                       fontWeight: '200',
                     }}>
-                    00/00/0000
+                    { new Date().toLocaleString().split(" ")[0] }
                   </Text>
                 </View>
                 <View
@@ -418,7 +422,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#fff0',
     padding: 8,
     width: 330,
     transform: [{scale: 0.8}]
