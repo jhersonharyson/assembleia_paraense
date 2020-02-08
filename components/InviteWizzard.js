@@ -416,7 +416,7 @@ export default class App extends React.Component {
         <PaperProvider theme={theme}>
           <>
             <TouchableOpacity style={{paddingTop: Constants.statusBarHeight}}><Text>FECHAR</Text></TouchableOpacity>
-            <KeyboardAvoidingView behavior="padding" style={styles.container} keyboardShouldPersistTaps={true} >
+            <KeyboardAvoidingView behavior="padding" style={styles.container} keyboardShouldPersistTaps="always" >
               <MultiStep steps={steps} onFinish={this.finish}/>
             </KeyboardAvoidingView>
           </>

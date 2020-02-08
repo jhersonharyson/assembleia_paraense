@@ -104,24 +104,28 @@ export default class Home extends React.Component {
     return (
       <>
         <Block flex center style={styles.home}>
-          {/* <FAB
+          { 
+          !this.state.inviteForm &&
+          <FAB
             style={styles.fab}
             icon="plus"
-            onPress={() => console.log('Pressed')}
-          /> */}
-        <ScrollView
+            onPress={()=>{this.setState({inviteForm: true})}} 
+          />
+          }
+        <View
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.products}>
-            <Block flex>
+           
             
             {this.state.inviteForm && 
-              <KeyboardAwareScrollView behavior="padding" enabled keyboardShouldPersistTaps={true} contentContainerStyle={{flex: 1, paddingHorizontal: 5}} style={{flex: 1}}>
+             <Block flex>
+              <KeyboardAwareScrollView behavior="padding" enabled keyboardShouldPersistTaps="always" contentContainerStyle={{flex: 1, paddingHorizontal: 5}} style={{flex: 1}}>
                 <ScrollView style={{width: "100%", height: "100%", margin: 0, padding: 0}}>
                 
-                  <View style={styles.paddingFields}>
+                  <View style={[styles.paddingFields, {paddingTop: 30}]}>
                     <Text style={styles.text}>PRECISAMOS DE ALGUMAS INFORMAÇÕES PARA GERAR O CONVITE</Text>
                   </View>
-                  <View style={{paddingTop: 35}}>
+                  <View style={{paddingTop: 15}}>
                     <TextInput  mode="outlined" label="Nome do convidado" value={this.state.newInvite.name} onChangeText={text=>{ this.setState({newInvite: {...this.state.newInvite, name: text.substring(0, 25)}}); this.canInvite()}} />
                   </View>
                   <View style={styles.paddingFields}>
@@ -211,17 +215,18 @@ export default class Home extends React.Component {
 
                 </ScrollView>
               </KeyboardAwareScrollView>
+             </Block>
             }
             {!this.state.inviteForm && 
               <View style={styles.containerListInvites}> 
-                <Block center>
+                {/* <Block center>
                   <TouchableOpacity style={[styles.button, styles.shadow, styles.block]} onPress={()=>{this.setState({inviteForm: true})}} color="#1B4E92" icon="user">
                     <Text>
                       EMITIR NOVO CONVITE
                     </Text>
                   </TouchableOpacity>
-                </Block>
-                <Block>
+                </Block> */}
+                  <Block>
                     <Text h5 style={{marginVertical: 15, marginLeft: 10,}}>
                       Últimos convites 
                     </Text>
@@ -236,9 +241,9 @@ export default class Home extends React.Component {
             }
               
 
-          </Block>
+         
         
-        </ScrollView>
+        </View>
         
       </Block>
       <Portal>
@@ -330,6 +335,8 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+    backgroundColor: "#1B4E92",
+    zIndex: 100
   },
   button:{
     borderWidth: 2, 
