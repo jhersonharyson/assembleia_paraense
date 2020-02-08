@@ -57,8 +57,10 @@ const BellButton = ({isWhite, style, navigation}) => (
 
 class Header extends React.Component {
   handleLeftPress = () => {
-    const { back, navigation } = this.props;
-    return (back ? navigation.goBack() : navigation.openDrawer());
+    
+    const { back, navigation, goHome } = this.props;
+    
+    return goHome ? navigation.navigate('Home') : (back ? navigation.goBack() : navigation.openDrawer());
   }
 
   renderRight = () => {
@@ -95,8 +97,8 @@ class Header extends React.Component {
         ]);
       case 'Profile':
         return ([
-          <ChatButton key='chat-profile' navigation={navigation} isWhite={white} />,
-          <BasketButton key='basket-deals' navigation={navigation} isWhite={white} />
+          // <ChatButton key='chat-profile' navigation={navigation} isWhite={white} />,
+          // <BasketButton key='basket-deals' navigation={navigation} isWhite={white} />
         ]);
       case 'Product':
         return ([
@@ -136,16 +138,16 @@ class Header extends React.Component {
 
     return (
       <Block row style={styles.tabs}>
-        <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('DigitalCard')}>
+        {/* <Button shadowless style={[styles.tab, styles.divider]} onPress={() => navigation.navigate('DigitalCard')}>
           <Block row middle>
             <Icon name="idcard" family="AntDesign" style={{ paddingRight: 8 }} />
             <Text size={16} style={styles.tabTitle}>{tabTitleLeft || 'Carteira'}</Text>
           </Block>
-        </Button>
+        </Button> */}
         <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Sharing')}>
-          <Block row middle>
-            <Icon size={16} name="sharealt" family="AntDesign" style={{ paddingRight: 8 }} />
-            <Text size={16} style={styles.tabTitle}>{tabTitleRight || 'Convidar'}</Text>
+          <Block row middle style={{alignItems: "flex-end"}}>
+            <Icon size={16} name="mail" family="AntDesign" style={{ paddingRight: 8 }} />
+            <Text size={16} style={styles.tabTitle}>{tabTitleRight || 'CONVITES'}</Text>
           </Block>
         </TouchableOpacity>
       </Block>
@@ -166,7 +168,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { back, title, white, transparent, navigation } = this.props;
+    const { back, title, white, transparent, navigation, goHome } = this.props;
     const { routeName } = navigation.state;
     const noShadow = ["Search", "Categories", "Deals", "Pro", "Profile"].includes(routeName);
     const headerStyles = [
@@ -176,15 +178,16 @@ class Header extends React.Component {
 
     return (
       <Block style={headerStyles}>
+       
         <NavBar
-          back={back}
+          back={back || goHome}
           title={title}
-          style={styles.navbar}
+          style={[styles.navbar, {marginTop: -25}]}
           transparent={transparent}
           right={this.renderRight()}
           rightStyle={{ alignItems: 'center' }}
           leftStyle={{ flex: 0.3, paddingTop: 2  }}
-          leftIconName="navicon"
+          leftIconName={goHome ? "chevron-left" : "navicon"}
           leftIconColor={white ? theme.COLORS.WHITE : theme.COLORS.ICON}
           titleStyle={[
             styles.title,
@@ -192,6 +195,7 @@ class Header extends React.Component {
           ]}
           onLeftPress={this.handleLeftPress}
         />
+         <Text>{goHome}</Text>
         {this.renderHeader()}
       </Block>
     );

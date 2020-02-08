@@ -5,7 +5,7 @@ import { Block, Text, theme } from "galio-framework";
 import Icon from "./Icon";
 import materialTheme from "../constants/Theme";
 
-const mapTitleOfScreens = {Home: "Home", Profile: "Perfil", Settings: "Configurações", Components: "Componentes", Sharing: "Enviar convite","Sign Up": "Sair"};
+const mapTitleOfScreens = {Home: "Home", Perfil: "Perfil", Sharing: "Enviar convite","Sign Up": "Sair"};
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
@@ -21,7 +21,7 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : materialTheme.COLORS.MUTED}
           />
         );
-      case "Profile":
+      case "Perfil":
         return (
           <Icon
             size={16}
@@ -36,15 +36,6 @@ class DrawerItem extends React.Component {
             size={16}
             name="gears"
             family="font-awesome"
-            color={focused ? "white" : materialTheme.COLORS.MUTED}
-          />
-        );
-      case "Components":
-        return (
-          <Icon
-            size={16}
-            name="md-switch"
-            family="ionicon"
             color={focused ? "white" : materialTheme.COLORS.MUTED}
           />
         );

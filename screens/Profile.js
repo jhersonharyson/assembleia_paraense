@@ -1,16 +1,34 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform, View } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Button } from 'react-native-paper';
+
 
 import { Icon } from '../components';
+import ClubCard from "./../components/ClubCard";
+
+import { converterToShareFile } from './../services/sharing'
+
 import { Images, materialTheme } from '../constants';
 import { HeaderHeight } from "../constants/utils";
+
+
 
 const { width, height } = Dimensions.get('screen');
 const thumbMeasure = (width - 48 - 32) / 3;
 
 export default class Profile extends React.Component {
+  
+  clubCardRef =  React.createRef(null)
+
+  shareFile = () =>{
+    converterToShareFile({
+      elementRef: this.clubCardRef, 
+      fileName: new Date().toLocaleString()
+    })
+  }
+
   render() {
     return (
       <Block flex style={styles.profile}>
@@ -21,13 +39,10 @@ export default class Profile extends React.Component {
             imageStyle={styles.profileImage}>
             <Block flex style={styles.profileDetails}>
               <Block style={styles.profileTexts}>
-                <Text color="white" size={28} style={{ paddingBottom: 8 }}>Rachel Brown</Text>
+                <Text color="white" size={28} style={{ paddingBottom: 8 }}>Fulana de tal</Text>
                 <Block row space="between">
                   <Block row>
-                    <Block middle style={styles.pro}>
-                      <Text size={16} color="white">Pro</Text>
-                    </Block>
-                    <Text color="white" size={16} muted style={styles.seller}>Seller</Text>
+                    <Text color="white" size={16} muted style={styles.seller}>SÓCIO</Text>
                     <Text size={16} color={materialTheme.COLORS.WARNING}>
                       4.8 <Icon name="shape-star" family="GalioExtra" size={14} />
                     </Text>
@@ -35,7 +50,7 @@ export default class Profile extends React.Component {
                   <Block>
                     <Text color={theme.COLORS.MUTED} size={16}>
                       <Icon name="map-marker" family="font-awesome" color={theme.COLORS.MUTED} size={16} />
-                      {` `} Los Angeles, CA
+                      {` `} Belém, PA
                       </Text>
                   </Block>
                 </Block>
@@ -46,7 +61,8 @@ export default class Profile extends React.Component {
         </Block>
         <Block flex style={styles.options}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Block row space="between" style={{ padding: theme.SIZES.BASE, }}>
+            <Text bold size={18} style={{marginBottom: 25, marginTop: 10}}>Cateira digital</Text>
+            {/* <Block row space="between" style={{ padding: theme.SIZES.BASE, }}>
               <Block middle>
                 <Text bold size={12} style={{marginBottom: 8}}>36</Text>
                 <Text muted size={12}>Orders</Text>
@@ -59,23 +75,11 @@ export default class Profile extends React.Component {
                 <Text bold size={12} style={{marginBottom: 8}}>2</Text>
                 <Text muted size={12}>Messages</Text>
               </Block>
-            </Block>
-            <Block row space="between" style={{ paddingVertical: 16, alignItems: 'baseline' }}>
-              <Text size={16}>Recently viewed</Text>
-              <Text size={12} color={theme.COLORS.PRIMARY} onPress={() => this.props.navigation.navigate('Home')}>View All</Text>
-            </Block>
-            <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-              <Block row space="between" style={{ flexWrap: 'wrap' }} >
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}  
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </Block>
-            </Block>
+            </Block> */}
+            <ClubCard ref={(r)=>{this.clubCardRef = r}}/>
+            <Button shadowless style={[styles.button, styles.shadow, styles.block]} onPress={this.shareFile} color="#1B4E92" icon="share">
+                COMPARTILHAR
+            </Button>
           </ScrollView>
         </Block>
       </Block>
@@ -145,5 +149,18 @@ const styles = StyleSheet.create({
     bottom: 0,
     height: '30%',
     position: 'absolute',
+  },
+  button:{
+    // borderWidth: 2, 
+    borderColor: "#1B4E92",//"#63b563", 
+    fontWeight: "bold",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    borderRadius: 3,
+    width: "49%"
+  },
+  block:{
+    width: "100%"
   },
 });
