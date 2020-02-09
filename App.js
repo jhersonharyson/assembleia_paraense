@@ -1,16 +1,3 @@
-/*!
-
- =========================================================
- * Material Kit React Native - v1.4.0
- =========================================================
- * Product Page: https://demos.creative-tim.com/material-kit-react-native/
- * Copyright 2019 Creative Tim (http://www.creative-tim.com)
- * Licensed under MIT (https://github.com/creativetimofficial/material-kit-react-native/blob/master/LICENSE)
- =========================================================
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 import React from 'react';
 import { Platform, StatusBar, Image } from 'react-native';
 import { AppLoading } from 'expo';
@@ -18,8 +5,17 @@ import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
 import { Provider, DefaultTheme } from 'react-native-paper';
 
+import { Notifications } from 'expo';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+import { Vibration } from 'react-native';
+
 import AppContainer from './navigation/Screens';
 import { Images, products, materialTheme } from './constants/';
+
+
+
+
 
 // cache app images
 const assetImages = [
@@ -58,6 +54,51 @@ const theme = {
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    expoPushToken : '',
+    notification: {},
+  };
+
+  registerForPushNotificationsAsync = async () => {
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+      );
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      let token = await Notifications.getExpoPushTokenAsync();
+      console.log(token);
+      this.setState({expoPushToken: token});
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+  };
+
+  componentDidMount() {
+    this.registerForPushNotificationsAsync();
+
+    // Handle notifications that are received or selected while the app
+    // is open. If the app was closed and then opened by tapping the
+    // notification (rather than just tapping the app icon to open it),
+    // this function will fire on the next tick after the app starts
+    // with the notification data.
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
+  }
+
+  _handleNotification = notification => {
+    Vibration.vibrate()
+    alert(JSON.stringify(notification, null, 4))
+    this.setState({ notification: notification });
   };
 
   render() {
