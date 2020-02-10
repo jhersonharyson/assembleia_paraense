@@ -3,13 +3,13 @@ import { withNavigation } from 'react-navigation';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
-import ImgaeLoader from './../components/ImgaeLoader'
+import ImageLoader from './ImageLoader'
 
 import materialTheme from '../constants/Theme';
 
 const { width } = Dimensions.get('screen');
 
-class Product extends React.Component {
+class Advertisement extends React.Component {
   render() {
     const { navigation, advertisement, horizontal, full, style, priceColor, imageStyle } = this.props;
     const imageStyles = [styles.image, !!advertisement.full ? styles.fullImage : styles.horizontalImage, imageStyle];
@@ -18,7 +18,7 @@ class Product extends React.Component {
       <Block row={!!advertisement.horizontal} card flex style={[styles.product, styles.shadow, style]}>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Advertisement', { advertisement: advertisement })}>
           <Block flex style={[styles.imageContainer, styles.shadow]}>
-            <ImgaeLoader source={advertisement.image} style={imageStyles} />
+            <Image source={{uri: advertisement.image}} style={imageStyles}/>
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Advertisement', { advertisement: advertisement })}>
@@ -33,7 +33,7 @@ class Product extends React.Component {
   }
 }
 
-export default withNavigation(Product);
+export default withNavigation(Advertisement);
 
 const styles = StyleSheet.create({
   product: {

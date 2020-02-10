@@ -8,7 +8,7 @@ import { QRCode } from 'react-native-custom-qr-codes-expo';
 import materialTheme from '../constants/Theme';
 
 import InviteCard from './InviteCard'
-import ImageLoader from './ImgaeLoader';
+import ImageLoader from './ImageLoader';
 
 const { width } = Dimensions.get('screen');
 

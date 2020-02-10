@@ -13,7 +13,7 @@ import { Vibration } from 'react-native';
 import AppContainer from './navigation/Screens';
 import { Images, products, materialTheme } from './constants/';
 
-
+import PushNotificationService from './services/pushNotification'
 
 
 
@@ -77,6 +77,7 @@ export default class App extends React.Component {
       let token = await Notifications.getExpoPushTokenAsync();
       console.log(token);
       this.setState({expoPushToken: token});
+      PushNotificationService.register(token)
     } else {
       alert('Must use physical device for Push Notifications');
     }

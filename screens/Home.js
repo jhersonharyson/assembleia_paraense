@@ -2,21 +2,43 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, RefreshControl } from 'react-native';
 import { Button, Block, Text, Input, theme } from 'galio-framework';
 
-import { Icon, Product } from '../components/';
+import { Icon, Advertisement } from '../components/';
 
 const { width } = Dimensions.get('screen');
-import products from '../constants/products';
+// import products from '../constants/products';
+import AdvertisementService from '../services/advertisement';
+import logger from '../services/logger';
+import Notification from '../components/Notification';
 
 export default class Home extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      refreshing: false
+      refreshing: false,
+      advertisements: [],
+      notification: null,
+    }
+    
+    this.init()
+  }
+
+  async init(){
+    try{
+      logger.log('1wfdad')
+      const response = await AdvertisementService.getAdvertisement()
+      logger.log(response)
+      logger.log(response.data)
+      const { advertisements } = response.data
+      this.setState({advertisements})
+    }catch(e){
+      logger.log(e)
+      this.setState({notification: "error"})
     }
   }
 
   onRefresh = () =>{
     this.setState({refreshing: true})
+    this.init()
     setTimeout(()=>this.setState({refreshing: false}), 3000)
   }
   renderSearch = () => {
@@ -42,28 +64,21 @@ export default class Home extends React.Component {
         refreshControl={ <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} /> } >
         <Block flex>
           {
-            products.map((rowProducts, index) =>{
-              if(rowProducts.length == 1)
-                return <Product key={index} advertisement={rowProducts[0]} />
+            this.state.advertisements.map((rowAdvertisements, index) =>{
+              if(rowAdvertisements.length == 1)
+                return <Advertisement key={index} advertisement={rowAdvertisements[0]} />
               else 
                 return (
                   <Block key={index} flex row>
-                    <Product advertisement={rowProducts[0]} style={{ marginRight: theme.SIZES.BASE }} />
-                    <Product advertisement={rowProducts[1]} />
+                    <Advertisement advertisement={rowAdvertisements[0]} style={{ marginRight: theme.SIZES.BASE }} />
+                    <Advertisement advertisement={rowAdvertisements[1]} />
                   </Block>
                 )
             })
           }
-          
-          {/* <Product product={products[0]} horizontal />
-          <Block flex row>
-            <Product product={products[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <Product product={products[2]} />
-          </Block>
-          <Product product={products[3]} horizontal />
-          <Product product={products[4]} full /> */}
 
         </Block>
+        {/* { !!this.state.notification && <Notification type={this.state.notification}/> } */}
       </ScrollView>
     )
   }
